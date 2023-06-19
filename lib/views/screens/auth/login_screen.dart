@@ -48,6 +48,7 @@ class LoginScreen extends StatelessWidget {
                 controller: _passwordController,
                 labelText: 'Password',
                 icon: Icons.lock,
+                isObscure: true,
               ),
             ),
             const SizedBox(height: 30,
@@ -62,16 +63,15 @@ class LoginScreen extends StatelessWidget {
                 )
               ),
               child: InkWell(
-                onTap: (){
-                  print('Kamal');
-                },
+                onTap: () => authController.loginUser(_emailController.text, _passwordController.text),
                 child: const Center(
                   child: Text('Login', style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
-                  ),),
+                  ),
+                  ),
                 ),
-              ),
+            ),
             ),
             const SizedBox(height: 15,),
             Row(
@@ -84,7 +84,6 @@ class LoginScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: (){
-                    _navigateToNextScreen(context);
                     print('Navigating User');
                   },
                   child: Text(
@@ -93,14 +92,10 @@ class LoginScreen extends StatelessWidget {
                   ),
                 )
               ],
-            )
-          ],
-        ),
-      ),
+            ),
+    ]
+    ),
+    )
     );
-  }
-}
-void _navigateToNextScreen(BuildContext context) {
-  Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => SignupScreen()));
+   }
 }
