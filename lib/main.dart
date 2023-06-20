@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:tiktok/constants.dart';
 import 'package:tiktok/controllers/auth_controller.dart';
 import 'package:tiktok/views/screens/auth/login_screen.dart';
-import 'package:tiktok/views/screens/auth/signup_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
