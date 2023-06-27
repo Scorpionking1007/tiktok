@@ -33,7 +33,7 @@ class VideoScreen extends StatelessWidget {
       ),
     );
   }
-  buildMusicAlbumb(String profilePhoto) {
+  buildMusicAlbum(String profilePhoto) {
     return SizedBox(width: 60,height: 60,child: Column(children: [
       Container(padding: EdgeInsets.all(11),
         height: 50,
@@ -65,7 +65,7 @@ class VideoScreen extends StatelessWidget {
             itemCount: videoController.videoList.length,
             controller: PageController(initialPage:0, viewportFraction:1),
     scrollDirection: Axis.vertical,
-    itemBuilder: (cintext,index) {
+    itemBuilder: (context,index) {
               final data = videoController.videoList[index];
               return Stack(
               children: [
@@ -159,7 +159,7 @@ class VideoScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-            CircleAnimation(child: buildMusicAlbumb(data.profilePhoto),),
+            CircleAnimation(child: buildMusicAlbum(data.profilePhoto),),
             ],
 
           ),
@@ -169,12 +169,12 @@ class VideoScreen extends StatelessWidget {
     ),
     ],
     
-    )
+    ),
               ],
               );
     },
           );
-        }
+        },
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:tiktok/constants.dart';
 import 'package:tiktok/models/video.dart';
 import 'package:video_compress/video_compress.dart';
+import 'package:tiktok/models/user.dart';
 
 class UploadVideoController extends GetxController {
 
@@ -14,8 +15,8 @@ class UploadVideoController extends GetxController {
     return compressedVideo!.file;
   }
 
-  Future<String> _uploadVideoStorage(String id, String videoPath) async {
-    Reference ref = firebaseStorage.ref().child('video').child(id);
+  Future<String> _uploadVideoToStorage(String id, String videoPath) async {
+    Reference ref = firebaseStorage.ref().child('videos').child(id);
 
     ref.putFile(await _compressVideo(videoPath));
     UploadTask uploadTask = ref.putFile(await _compressVideo(videoPath));
@@ -24,14 +25,14 @@ class UploadVideoController extends GetxController {
     return downloadUrl;
   }
 
-  _getThumnail(String videoPath) async {
+  _getThumbnail(String videoPath) async {
     final thumbnail = await VideoCompress.getFileThumbnail(videoPath);
     return thumbnail;
   }
 
-  Future<String> _uploadVideoToStorage(String id, String videoPath) async {
+  Future<String> _uploadImageToStorage(String id, String videoPath) async {
     Reference ref = firebaseStorage.ref().child('thumbnails').child(id);
-    UploadTask uploadTask = ref.putFile(await _getThumnail(videoPath));
+    UploadTask uploadTask = ref.putFile(await _getThumbnail(videoPath));
     TaskSnapshot snap = await uploadTask;
     String downloadUrl = await snap.ref.getDownloadURL();
     return downloadUrl;
@@ -51,7 +52,7 @@ class UploadVideoController extends GetxController {
       var allDocs = await firestore.collection('videos').get();
       int len = allDocs.docs.length;
       String videoUrl = await _uploadVideoToStorage("Video $len", videoPath);
-      String thumbnail = await _uploadVideoStorage("Video $len", videoPath);
+      String thumbnail = await _uploadImageToStorage("Video $len", videoPath);
 
       Video video = Video(
           username: (userDoc.data()! as Map<String, dynamic>)['name'],

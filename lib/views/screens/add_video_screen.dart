@@ -26,8 +26,8 @@ class AddVideoScreen extends StatelessWidget {
       children: [
         SimpleDialogOption(
           onPressed: () => picVideo(ImageSource.gallery, context),
-          child: Row(
-            children: const [
+          child: const Row(
+            children: [
               Icon(Icons.image),
               Padding(
                 padding: EdgeInsets.all(7.0),
@@ -38,8 +38,8 @@ class AddVideoScreen extends StatelessWidget {
         ),
         SimpleDialogOption(
           onPressed: () => picVideo(ImageSource.camera, context),
-          child: Row(
-            children: const [
+          child: const Row(
+            children: [
               Icon(Icons.camera_alt),
               Padding(
                 padding: EdgeInsets.all(7.0),
@@ -50,8 +50,8 @@ class AddVideoScreen extends StatelessWidget {
         ),
         SimpleDialogOption(
           onPressed: () => Navigator.of(context).pop(),
-          child: Row(
-            children: const [
+          child: const Row(
+            children: [
               Icon(Icons.cancel),
               Padding(
                 padding: EdgeInsets.all(7.0),

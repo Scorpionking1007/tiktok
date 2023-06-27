@@ -121,10 +121,10 @@ class SignupScreen extends StatelessWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: (){
-                    _navigateToNextScreen(context);
-                    print('Register user');
-                  },
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context)=> LoginScreen(),
+                    ),
+                  ),
                   child: Text(
                     'Login',
                     style: TextStyle(fontSize: 20,color: buttonColor),
@@ -139,7 +139,7 @@ class SignupScreen extends StatelessWidget {
     }
 }
 
-void _navigateToNextScreen(BuildContext context) {
-  Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => LoginScreen()));
-}
+//void _navigateToNextScreen(BuildContext context) {
+  //Navigator.of(context).push(
+    //  MaterialPageRoute(builder: (context) => LoginScreen()));
+//}

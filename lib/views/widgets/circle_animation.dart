@@ -25,14 +25,14 @@ class _CircleAnimationState extends State<CircleAnimation>with SingleTickerProvi
   }
   @override
   void dispose() {
-    super.dispose();
     controller.dispose();
+    super.dispose();
   }
 
  @override
  Widget build(BuildContext context) {
  return RotationTransition(
-     turns: Tween(begin: 0.0,end:1.0).animate(controller),
+   turns: Tween(begin: 0.0,end:0.1).animate(controller),
    child: widget.child,
  );
 }

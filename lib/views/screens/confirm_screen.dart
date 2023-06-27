@@ -10,7 +10,7 @@ class ConfirmScreen extends StatefulWidget {
   final File videoFile;
   final String videoPath;
   const ConfirmScreen({
-    Key? key, required this.videoPath, required this.videoFile}) : super(key: key);
+    Key? key, required this.videoFile, required this.videoPath}) : super(key: key);
 
   @override
   State<ConfirmScreen> createState() => _ConfirmScreenState();
@@ -18,8 +18,8 @@ class ConfirmScreen extends StatefulWidget {
 
 class _ConfirmScreenState extends State<ConfirmScreen> {
   late VideoPlayerController controller;
-  TextEditingController _songController =TextEditingController();
-  TextEditingController _captionController= TextEditingController();
+  final TextEditingController _songController =TextEditingController();
+  final TextEditingController _captionController= TextEditingController();
 
   UploadVideoController uploadVideoController= Get.put(UploadVideoController());
 

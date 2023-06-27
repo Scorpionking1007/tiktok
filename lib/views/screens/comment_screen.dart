@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:tiktok/constants.dart';
 import 'package:tiktok/controllers/comment_controller.dart';
+import 'package:tiktok/models/comment.dart';
 import 'package:get/get.dart';
+import 'package:timeago/timeago.dart';
+import 'package:timeago_flutter/timeago_flutter.dart' as tago;
 
 class CommentScreen extends StatelessWidget {
   final String id;
@@ -24,22 +28,24 @@ class CommentScreen extends StatelessWidget {
                 child: Obx(
                         () {
                     return ListView.builder(
-                      itemCount: 1,
+                      itemCount: commentController.comments.length,
                         itemBuilder: (context, index){
+                        final comment =commentController.comments[index];
                       return ListTile(
                         leading: CircleAvatar(
                           backgroundColor: Colors.black,
-                            backgroundImage: NetworkImage('profile photo'),
+                            backgroundImage: NetworkImage(comment.profilePhoto),
                         ),
                         title: Row(
                           children: [
-                            Text('username',
+                            Text(
+                              "${comment.username}  ",
                               style: const TextStyle(fontSize: 20,
                                   color: Colors.red,
                                   fontWeight: FontWeight.w700
                               ),
                             ),
-                            Text('comment discription',
+                            Text(comment.comment,
                               style: const TextStyle(fontSize: 20,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500
@@ -50,23 +56,24 @@ class CommentScreen extends StatelessWidget {
                         subtitle: Row(
                           children: [
                             Text(
-                              'date',
-                              style: TextStyle(fontSize: 12,
+                              tago.format(comment.datePublished?.toDate() ?? DateTime.now()
+                              ),
+                              style: const TextStyle(fontSize: 12,
                                   color: Colors.white,
                               ),
                             ),
                             const SizedBox(width: 10,),
-                            Text('10 likes', style: const TextStyle(fontSize: 12,color: Colors.white,
+                            Text('${comment.likes?.length} likes', style: const TextStyle(fontSize: 12,color: Colors.white,
                             ),
                             ),
                           ],
                         ),
                         trailing: InkWell(
-                          onTap: (){},
+                          onTap: ()=> commentController.likeComment(comment.id),
                           child: Icon(
                             Icons.favorite,
                             size: 25,
-                            color: Colors.red,
+                            color: comment.likes.contains(authController.user.uid)? Colors.red: Colors.white,
                           ),
                         ),
                       );

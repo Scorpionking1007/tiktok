@@ -16,6 +16,23 @@ class CommentController extends GetxController{
   }
 
   getComment() async{
+    _comments.bindStream(
+        firestore
+            .collection('videos')
+            .doc(_postId)
+            .collection('comments')
+            .snapshots()
+            .map(
+                (QuerySnapshot query){
+                  List<Comment> retValue=[];
+                  for(var element in query.docs){
+                    retValue.add(Comment.fromSnap(element));
+                  }
+                  return retValue;
+                },
+        ),
+
+    );
 
   }
   postComment(String commentText) async{
@@ -32,7 +49,7 @@ class CommentController extends GetxController{
         Comment comment = Comment(
             username: (userDoc.data()! as dynamic)['name'],
             comment: commentText.trim(),
-            datetPublished: DateTime.now(),
+            datePublished:  DateTime.now(),
             likes: [],
             profilePhoto: (userDoc.data()! as dynamic)['profilePhoto'],
             uid: authController.user.uid,
@@ -46,10 +63,43 @@ class CommentController extends GetxController{
             .set(
           comment.toJason(),
         );
+        DocumentSnapshot doc =await firestore.collection('videos').doc(_postId).get();
+        await firestore.collection('videos').doc(_postId).update({
+          'commentCount':(doc.data()!as dynamic)['commentCount'] +1,
+        });
       }
     }catch(e){
-      Get.snackbar('Error While Commenting', e.toString(),);
+      Get.snackbar('Error While Commenting', e.toString(),
+      );
+    }
+  }
+  likeComment(String id) async{
+    var uid = authController.user.uid;
+    DocumentSnapshot doc = await firestore
+        .collection('videos')
+        .doc(_postId)
+        .collection('comments')
+        .doc(id)
+        .get();
 
+    if((doc.data()! as dynamic)['likes'].contains(uid)) {
+      await firestore
+          .collection('videos')
+          .doc(_postId)
+          .collection('comments')
+          .doc(id)
+          .update({
+        'likes': FieldValue.arrayRemove([uid]),
+      });
+    }else{
+      await firestore
+          .collection('videos')
+          .doc(_postId)
+          .collection('comments')
+          .doc(id)
+          .update({
+        'likes': FieldValue.arrayUnion([uid]),
+      });
     }
   }
 }
